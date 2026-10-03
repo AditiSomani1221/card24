@@ -1,0 +1,45 @@
+:root {
+    /* Backgrounds: Full website is consistently dark */
+    --background: #030813;
+    --deep-bg: #030813;
+    --deep-blue: #081121;
+    --indigo-glow: #10213D;
+    
+    /* Card Colors: Light/Cream contrasting cards */
+    --card-light: #FFFDF8;
+    --card-light-alt: #FAF6EF;
+    
+    /* Metallic Golds & Accents */
+    --gold: #C8A45A;
+    --gold-light: #E3C57A;
+    --gold-dark: #A58038;
+    --gold-glow: rgba(200, 164, 90, 0.35);
+    
+    /* Spiritual Shiva Blue */
+    --shiva-blue: #4A6E82;
+    --shiva-blue-light: #6A8E9E;
+    
+    /* Text Colors */
+    --text-dark: #2D2A26;
+    --text-light: #F4EFE6;
+    --text-muted: #6E5847;
+    
+    /* Glassmorphism Styles (Dark Theme) */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    
+    /* Glassmorphism Styles (Light/Cream Cards on Dark Bg) */
+    --glass-light-bg: rgba(255, 253, 248, 0.94);
+    --glass-light-border: rgba(200, 164, 90, 0.3);
+    --glass-light-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+
+    /* Fonts */
+    --heading: 'Cinzel', 'Noto Serif Devanagari', serif;
+    --body: 'Cormorant Garamond', 'Noto Serif Devanagari', serif;
+    --decorative: 'Great Vibes', 'Noto Serif Devanagari', cursive;
+
+    /* Transitions */
+    --transition-slow: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-medium: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}

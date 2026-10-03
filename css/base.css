@@ -1,0 +1,243 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-light); /* Light text on dark bg */
+    font-family: var(--body);
+    overflow-x: hidden;
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Premium Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--deep-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-light);
+}
+
+/* Common Typography & Layouts */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--heading);
+    letter-spacing: 2px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+}
+
+/* Scroll Animation classes */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Background Music Button Widget */
+.music-btn {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--gold-light);
+    color: var(--gold-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: var(--transition-medium);
+}
+
+.music-btn:hover {
+    background: var(--gold-light);
+    color: var(--deep-bg);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px var(--gold-light);
+}
+
+.music-btn.playing .music-icon {
+    animation: rotateMusic 4s linear infinite;
+}
+
+.music-waves {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.music-btn.playing .music-waves {
+    opacity: 1;
+}
+
+.music-btn.playing .music-icon {
+    opacity: 0.3;
+}
+
+.music-waves span {
+    width: 2px;
+    background-color: var(--gold-light);
+    animation: waveBounce 1.2s ease-in-out infinite alternate;
+}
+
+.music-waves span:nth-child(2) {
+    animation-delay: 0.2s;
+    height: 18px;
+}
+
+.music-waves span:nth-child(1) {
+    animation-delay: 0s;
+    height: 12px;
+}
+
+.music-waves span:nth-child(3) {
+    animation-delay: 0.4s;
+    height: 10px;
+}
+
+@keyframes rotateMusic {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes waveBounce {
+    0% { height: 3px; }
+    100% { height: 22px; }
+}
+
+/* Common Container utility */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 0;
+    position: relative;
+    z-index: 5;
+}
+
+.section-title {
+    font-size: clamp(32px, 5vw, 48px);
+    text-align: center;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: rgba(244, 239, 230, 0.7);
+    font-size: 20px;
+    font-family: var(--body);
+    margin-bottom: 60px;
+    font-style: italic;
+}
+
+
+/* ==========================================
+   MARIGOLD FLOWER SHOWER SYSTEM
+   ========================================== */
+
+.flower-container {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 99;
+    overflow: hidden;
+}
+
+.flower-petal {
+    position: absolute;
+    top: -20px;
+    pointer-events: none;
+    border-radius: 50% 0 50% 50%;
+    transform-origin: center;
+    animation: flowerFall 9s ease-in-out infinite;
+    opacity: 0.85;
+}
+
+.petal-pink-light {
+    background: linear-gradient(135deg, #FFF0F5 0%, #FFC0CB 100%); /* Lavender blush to pink */
+    box-shadow: 0 2px 5px rgba(255, 192, 203, 0.3);
+}
+
+.petal-pink-dark {
+    background: linear-gradient(135deg, #FFC0CB 0%, #FFB7C5 100%); /* Pink to soft rose */
+    box-shadow: 0 2px 5px rgba(255, 183, 197, 0.35);
+}
+
+@keyframes flowerFall {
+    0% {
+        transform: translateY(-5vh) rotate(0deg) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    25% {
+        transform: translateY(25vh) rotate(120deg) translateX(25px);
+    }
+    50% {
+        transform: translateY(50vh) rotate(240deg) translateX(-25px);
+    }
+    75% {
+        transform: translateY(75vh) rotate(360deg) translateX(20px);
+    }
+    100% {
+        transform: translateY(105vh) rotate(480deg) translateX(-10px);
+        opacity: 0;
+    }
+}

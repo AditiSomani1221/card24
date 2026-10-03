@@ -1,0 +1,293 @@
+/* ==========================================
+   LANDING / HERO SECTION
+   ========================================== */
+
+/* Intro Wrapper (shares a single continuous background across first 2 pages) */
+.divine-intro-wrapper {
+    position: relative;
+    width: 100%;
+    background-color: var(--deep-bg);
+    overflow: hidden;
+}
+
+.divine-shared-bg {
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    right: -60px;
+    height: 130vh;
+    background: url("../assets/images/backgrounds/mount-kailash.jpeg") no-repeat;
+    background-size: cover;
+    background-position: center top;
+    z-index: 1;
+    transition: var(--transition-slow);
+    
+    /* Hardware acceleration to prevent image pixelation on mobile */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    will-change: transform;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+.divine-shared-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 130vh;
+    background: linear-gradient(
+        to bottom,
+        rgba(3, 8, 19, 0.45) 0%,
+        rgba(3, 8, 19, 0.35) 40%,
+        rgba(3, 8, 19, 0.15) 65%,
+        var(--deep-bg) 100%
+    );
+    z-index: 4;
+    pointer-events: none;
+}
+
+.landing {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Layered Parallax Backgrounds */
+
+/* 2. Starry Sky Blend Layer */
+.stars-overlay {
+    position: absolute;
+    inset: 0;
+    background: url("../assets/images/backgrounds/stars.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 2;
+    opacity: 0.45;
+    mix-blend-mode: screen;
+    animation: starsPulse 12s ease-in-out infinite alternate;
+    
+    /* Prevent resolution dropping on mobile Safari */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* 3. Glowing Moon Element */
+.moon-element {
+    position: absolute;
+    top: 6%;
+    right: 15%;
+    width: clamp(100px, 15vw, 160px);
+    height: clamp(100px, 15vw, 160px);
+    background: url("../assets/images/backgrounds/moon.jpeg") no-repeat center;
+    background-size: cover;
+    border-radius: 50%;
+    z-index: 3;
+    box-shadow: 
+        0 0 30px rgba(255, 255, 255, 0.4),
+        0 0 60px rgba(227, 197, 122, 0.2);
+    animation: moonFloat 8s ease-in-out infinite;
+    mix-blend-mode: lighten;
+    opacity: 0.9;
+    
+    /* Prevent resolution dropping on mobile Safari */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Hero Content */
+.hero-content {
+    position: relative;
+    z-index: 10;
+    color: #ffffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    height: 100%;
+    transform: translateY(-19vh);
+}
+
+.hero-content .om {
+    font-size: clamp(60px, 10vw, 85px);
+    color: var(--gold-light);
+    animation: omPulse 4s ease-in-out infinite;
+    margin-bottom: 10px;
+    text-shadow: 
+        -1px -1px 0 rgba(3, 8, 19, 0.8),
+         1px -1px 0 rgba(3, 8, 19, 0.8),
+        -1px  1px 0 rgba(3, 8, 19, 0.8),
+         1px  1px 0 rgba(3, 8, 19, 0.8),
+         0 0 20px rgba(227, 197, 122, 0.5);
+    user-select: none;
+}
+
+.hero-content h1 {
+    font-family: var(--heading);
+    font-size: clamp(22px, 4.5vw, 42px);
+    font-weight: 600;
+    line-height: 1.6;
+    letter-spacing: 1px;
+    color: var(--gold-light);
+    margin: 20px 0;
+    text-shadow: 
+        -1px -1px 0 rgba(3, 8, 19, 0.9),  
+         1px -1px 0 rgba(3, 8, 19, 0.9),
+        -1px  1px 0 rgba(3, 8, 19, 0.9),
+         1px  1px 0 rgba(3, 8, 19, 0.9),
+         0 2px 8px rgba(3, 8, 19, 0.95),
+         0 4px 20px rgba(3, 8, 19, 0.8);
+    animation: titleReveal 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.hero-content h2 {
+    font-family: var(--heading);
+    font-size: clamp(34px, 6.5vw, 60px);
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    text-shadow: 
+        -1px -1px 0 rgba(3, 8, 19, 0.9),  
+         1px -1px 0 rgba(3, 8, 19, 0.9),
+        -1px  1px 0 rgba(3, 8, 19, 0.9),
+         1px  1px 0 rgba(3, 8, 19, 0.9),
+         0 3px 12px rgba(3, 8, 19, 0.95),
+         0 6px 30px rgba(3, 8, 19, 0.85);
+    letter-spacing: 3px;
+    animation: subtitleReveal 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.hero-content .wedding-date {
+    font-family: var(--body);
+    font-size: clamp(18px, 3.6vw, 34px);
+    letter-spacing: 3px;
+    color: var(--gold-light);
+    text-shadow: 
+        -1px -1px 0 rgba(3, 8, 19, 0.9),  
+         1px -1px 0 rgba(3, 8, 19, 0.9),
+        -1px  1px 0 rgba(3, 8, 19, 0.9),
+         1px  1px 0 rgba(3, 8, 19, 0.9),
+         0 2px 8px rgba(3, 8, 19, 0.95),
+         0 4px 20px rgba(3, 8, 19, 0.8);
+    border-top: 1.5px solid var(--gold-light);
+    border-bottom: 1.5px solid var(--gold-light);
+    padding: 8px 30px;
+    margin-top: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    animation: dateReveal 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    white-space: nowrap;
+}
+
+/* Ordinal suffixes on 23rd / 24th */
+.hero-content .wedding-date sup {
+    font-size: 0.55em;
+    letter-spacing: 1px;
+    vertical-align: super;
+    margin-right: 1px;
+}
+
+/* Scroll Down Hint */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold-light);
+    cursor: pointer;
+    font-family: var(--body);
+    z-index: 10;
+    animation: scrollFadeIn 2.5s ease forwards;
+}
+
+.scroll-indicator .scroll-text {
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.scroll-indicator .scroll-arrow {
+    font-size: 20px;
+    animation: arrowBounce 2s infinite;
+}
+
+/* Animations */
+@keyframes starsPulse {
+    0% { opacity: 0.35; transform: scale(1); }
+    100% { opacity: 0.6; transform: scale(1.03); }
+}
+
+@keyframes moonFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes omPulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 15px rgba(227, 197, 122, 0.7)); }
+}
+
+@keyframes titleReveal {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes subtitleReveal {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dateReveal {
+    from { opacity: 0; width: 0; }
+    to { opacity: 1; width: auto; }
+}
+
+@keyframes scrollFadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes arrowBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(8px); opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .moon-element {
+        top: 15%;
+        right: 10%;
+    }
+
+    .hero-content .wedding-date {
+        letter-spacing: 1.5px;
+        padding: 8px 16px;
+    }
+}
