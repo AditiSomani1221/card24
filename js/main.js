@@ -1,6 +1,6 @@
 // ==========================================================
 // Wedding Reception — "An Evening"
-// Link options:  reception.html?to=Sharma%20Family&lang=hi
+// Link options:  /?to=Sharma%20Family&lang=hi
 //   to   → greets that guest by name
 //   lang → "hi" opens in Hindi
 // ==========================================================
