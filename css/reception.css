@@ -1,0 +1,1110 @@
+/* ==========================================================
+   Wedding Reception — "An Evening"
+   The page is one evening: the sky moves from sunset to night
+   as the guest scrolls (colours are driven from js/reception.js).
+   ========================================================== */
+
+:root {
+    /* Sky (overwritten on scroll) */
+    --sky-top: #1f2a5a;
+    --sky-mid: #b45a7c;
+    --sky-bottom: #f0a25e;
+    --stars: 0;
+    --sun-y: 0;
+    --sun-o: 1;
+    --moon-y: 40;
+    --moon-o: 0;
+
+    /* Palette */
+    --cream: #fbf3e4;
+    --cream-dim: rgba(251, 243, 228, 0.78);
+    --gold: #e8c47a;
+    --gold-deep: #c8a45a;
+    --ember: #ff9f43;
+    --ink: #0b1026;
+    --card-bg: rgba(10, 14, 36, 0.5);
+    --card-border: rgba(232, 196, 122, 0.35);
+    --hill-far: #2a1b3d;
+    --hill-near: #120c22;
+
+    /* Type */
+    --f-head: 'Cinzel', 'Noto Serif Devanagari', serif;
+    --f-body: 'Cormorant Garamond', 'Noto Serif Devanagari', serif;
+    --f-deva: 'Noto Serif Devanagari', serif;
+
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--f-body);
+    font-size: 19px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+body.is-locked {
+    overflow: hidden;
+    height: 100vh;
+    height: 100svh;
+}
+
+html[lang="hi"] body {
+    font-size: 17px;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+}
+
+/* ---------------- Sky ---------------- */
+
+.sky {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(to bottom, var(--sky-top) 0%, var(--sky-mid) 58%, var(--sky-bottom) 100%);
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sky-stars {
+    position: absolute;
+    inset: 0;
+    opacity: var(--stars);
+}
+
+.star-dot {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+    animation: twinkle 3.5s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+}
+
+.sky-sun {
+    position: absolute;
+    left: 50%;
+    top: 62vh;
+    width: 46vmin;
+    height: 46vmin;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff1c9 0%, #ffcb7a 38%, rgba(255, 140, 70, 0.55) 60%, rgba(255, 120, 60, 0) 72%);
+    transform: translate(-50%, calc(var(--sun-y) * 1vh));
+    opacity: var(--sun-o);
+}
+
+.sky-moon {
+    position: absolute;
+    right: 9%;
+    top: 7vh;
+    width: 16vmin;
+    height: 16vmin;
+    min-width: 70px;
+    min-height: 70px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 34% 38%, rgba(160, 170, 190, 0.45) 0 9%, transparent 10%),
+        radial-gradient(circle at 62% 60%, rgba(160, 170, 190, 0.4) 0 7%, transparent 8%),
+        radial-gradient(circle at 56% 28%, rgba(160, 170, 190, 0.35) 0 5%, transparent 6%),
+        radial-gradient(circle at 40% 40%, #ffffff 0%, #e9ecf4 55%, #c6cbd9 100%);
+    box-shadow: 0 0 40px rgba(220, 230, 255, 0.45), 0 0 120px rgba(160, 180, 255, 0.25);
+    transform: translateY(calc(var(--moon-y) * 1vh));
+    opacity: var(--moon-o);
+}
+
+.sky-hills {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 24vh;
+}
+
+.hill-far { fill: var(--hill-far); opacity: 0.85; }
+.hill-near { fill: var(--hill-near); }
+
+/* ---------------- Controls ---------------- */
+
+.lang-switch,
+.music-btn {
+    position: fixed;
+    top: max(14px, env(safe-area-inset-top));
+    z-index: 30;
+    background: rgba(10, 14, 36, 0.45);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.lang-switch {
+    left: 16px;
+    display: flex;
+    border-radius: 999px;
+    padding: 3px;
+}
+
+.lang-switch button {
+    border: 0;
+    background: transparent;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-family: var(--f-head);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    color: var(--cream-dim);
+}
+
+.lang-switch button[data-lang="hi"] {
+    font-family: var(--f-deva);
+}
+
+.lang-switch button[aria-pressed="true"] {
+    background: var(--gold);
+    color: var(--ink);
+}
+
+.music-btn {
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+.music-btn .bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 16px;
+}
+
+.music-btn .bars span {
+    width: 3px;
+    height: 5px;
+    background: var(--gold);
+    border-radius: 2px;
+}
+
+.music-btn.playing .bars span {
+    animation: bar 1s ease-in-out infinite;
+}
+
+.music-btn.playing .bars span:nth-child(2) { animation-delay: 0.2s; }
+.music-btn.playing .bars span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bar {
+    0%, 100% { height: 5px; }
+    50% { height: 16px; }
+}
+
+/* ---------------- Diya ----------------
+   Diyas are <use> copies of one symbol, so per-copy styling has to come
+   through inherited custom properties: --flame (0/1) and --flicker. */
+
+.diya-flame {
+    transform-box: view-box;
+    transform-origin: 100px 76px;
+    opacity: var(--flame, 1);
+    transition: opacity 0.8s ease var(--flame-delay, 0s);
+    animation: flicker var(--flicker, 1.6s) ease-in-out infinite alternate;
+}
+
+.diya-glow {
+    transform-box: view-box;
+    transform-origin: 100px 52px;
+    opacity: var(--flame, 1);
+    transition: opacity 0.8s ease var(--flame-delay, 0s);
+    animation: glow 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes flicker {
+    0% { transform: scale(1, 1) skewX(0deg); }
+    30% { transform: scale(0.96, 1.05) skewX(2deg); }
+    60% { transform: scale(1.03, 0.96) skewX(-2deg); }
+    100% { transform: scale(0.98, 1.03) skewX(1deg); }
+}
+
+@keyframes glow {
+    from { transform: scale(0.92); }
+    to { transform: scale(1.08); }
+}
+
+/* ---------------- Gate (opening) ---------------- */
+
+.gate {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    padding: 24px 16px;
+    background:
+        radial-gradient(ellipse at 50% 65%, rgba(255, 159, 67, 0.08), transparent 60%),
+        linear-gradient(to bottom, #050817, #0b1026 60%, #140f26);
+    text-align: center;
+    transition: opacity 1.2s var(--ease), visibility 1.2s;
+}
+
+.gate-inner {
+    max-width: 420px;
+}
+
+.gate-om {
+    font-family: var(--f-deva);
+    font-size: 54px;
+    line-height: 1;
+    color: var(--gold);
+    text-shadow: 0 0 24px rgba(232, 196, 122, 0.45);
+}
+
+.gate-mantra {
+    font-family: var(--f-deva);
+    color: var(--gold);
+    margin: 12px 0 28px;
+    letter-spacing: 0.04em;
+}
+
+.gate-for {
+    margin: 0;
+    font-family: var(--f-head);
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+}
+
+html[lang="hi"] .gate-for {
+    font-family: var(--f-deva);
+    letter-spacing: 0.04em;
+    font-size: 15px;
+}
+
+.gate-name {
+    margin: 6px 0 22px;
+    font-family: var(--f-body);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(30px, 8.4vw, 42px);
+    line-height: 1.2;
+    color: var(--gold);
+}
+
+.gate-diya {
+    display: block;
+    margin: 0 auto;
+    width: 190px;
+    border: 0;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 24px;
+}
+
+.gate-diya svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+}
+
+.gate-diya:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 6px;
+}
+
+/* Unlit until tapped */
+.gate {
+    --flame: 0;
+}
+
+.gate.lit {
+    --flame: 1;
+}
+
+.gate:not(.lit) .gate-diya {
+    animation: invite-tap 2.4s ease-in-out infinite;
+}
+
+@keyframes invite-tap {
+    0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 0 rgba(255, 159, 67, 0)); }
+    50% { transform: translateY(-4px); filter: drop-shadow(0 6px 18px rgba(255, 159, 67, 0.35)); }
+}
+
+.gate-hint {
+    margin: 18px 0 0;
+    font-style: italic;
+    color: var(--cream-dim);
+    transition: opacity 0.4s;
+}
+
+.gate.lit .gate-hint {
+    opacity: 0;
+}
+
+.gate.lit {
+    background:
+        radial-gradient(ellipse at 50% 62%, rgba(255, 170, 80, 0.35), transparent 55%),
+        linear-gradient(to bottom, #050817, #0b1026 60%, #140f26);
+}
+
+.gate.gone {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* ---------------- Layout ---------------- */
+
+.evening {
+    position: relative;
+    z-index: 1;
+}
+
+.scene {
+    min-height: 92vh;
+    min-height: 92svh;
+    display: grid;
+    place-items: center;
+    padding: 80px 16px;
+}
+
+.scene > * {
+    min-width: 0;
+}
+
+.scene-short {
+    min-height: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.card {
+    width: 100%;
+    max-width: 560px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 22px;
+    padding: 36px 24px;
+    text-align: center;
+    backdrop-filter: blur(14px) saturate(120%);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.section-title {
+    margin: 0 0 18px;
+    font-family: var(--f-head);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+html[lang="hi"] .section-title {
+    font-family: var(--f-deva);
+    letter-spacing: 0.06em;
+    font-size: 18px;
+}
+
+.label {
+    margin: 0;
+    font-family: var(--f-head);
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+}
+
+html[lang="hi"] .label {
+    font-family: var(--f-deva);
+    letter-spacing: 0.04em;
+    font-size: 14px;
+}
+
+/* Reveal on scroll */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1s var(--ease), transform 1s var(--ease);
+}
+
+.reveal.in {
+    opacity: 1;
+    transform: none;
+}
+
+/* ---------------- 1. Hero ---------------- */
+
+.scene-hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: 90px;
+    align-content: center;
+}
+
+.hero {
+    text-align: center;
+    max-width: 640px;
+    text-shadow: 0 2px 18px rgba(30, 10, 40, 0.55);
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 1.4s var(--ease) 0.3s, transform 1.4s var(--ease) 0.3s;
+}
+
+body.is-open .hero {
+    opacity: 1;
+    transform: none;
+}
+
+.hero-greeting {
+    margin: 0 0 10px;
+    font-family: var(--f-body);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(24px, 6.4vw, 32px);
+    line-height: 1.2;
+    color: var(--cream);
+}
+
+.hero-eyebrow {
+    margin: 0;
+    font-style: italic;
+    font-size: clamp(18px, 4.6vw, 22px);
+    color: var(--cream);
+}
+
+/* The couple's names: formal serif, used in the hero, the card and the closing */
+.hero-names,
+.couple-name,
+.night-names {
+    font-family: var(--f-head);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #ffe3a3;
+}
+
+html[lang="hi"] .hero-names,
+html[lang="hi"] .couple-name,
+html[lang="hi"] .night-names {
+    font-family: var(--f-deva);
+    letter-spacing: 0;
+}
+
+.hero-names {
+    margin: 14px 0 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: clamp(44px, 13vw, 84px);
+    line-height: 1.05;
+    text-shadow: 0 0 30px rgba(255, 200, 120, 0.4), 0 2px 18px rgba(30, 10, 40, 0.5);
+}
+
+.amp {
+    font-family: var(--f-body);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--cream);
+}
+
+.hero-names .amp {
+    font-size: 0.55em;
+    line-height: 1.1;
+}
+
+.hero-title {
+    margin: 0;
+    font-family: var(--f-head);
+    font-weight: 600;
+    font-size: clamp(16px, 4.4vw, 22px);
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+}
+
+html[lang="hi"] .hero-title {
+    font-family: var(--f-deva);
+    letter-spacing: 0.04em;
+    font-size: clamp(20px, 5.4vw, 26px);
+    text-transform: none;
+}
+
+.hero-when {
+    display: inline-block;
+    margin: 22px 0 0;
+    padding: 8px 18px;
+    border-top: 1px solid rgba(255, 227, 163, 0.6);
+    border-bottom: 1px solid rgba(255, 227, 163, 0.6);
+    font-size: clamp(16px, 4.2vw, 20px);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.scroll-cue {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(26px + env(safe-area-inset-bottom));
+    margin: 0;
+    text-align: center;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--cream);
+    opacity: 0;
+    transition: opacity 1s ease 1.6s;
+}
+
+body.is-open .scroll-cue {
+    opacity: 0.85;
+    animation: drift 2.6s ease-in-out 2s infinite;
+}
+
+.scroll-cue::after {
+    content: "↓";
+    display: block;
+    font-style: normal;
+}
+
+@keyframes drift {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+}
+
+/* ---------------- 2. Invitation card ---------------- */
+
+.mantras {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px 14px;
+    margin-bottom: 26px;
+    font-family: var(--f-deva);
+    font-size: 14px;
+    color: var(--gold);
+}
+
+.elders {
+    margin: 6px 0 0;
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.star {
+    margin: 18px 0;
+    color: var(--gold);
+}
+
+.hosts {
+    margin: 0 0 8px;
+    font-family: var(--f-head);
+    font-weight: 600;
+    font-size: clamp(20px, 5.4vw, 26px);
+    letter-spacing: 0.06em;
+    color: var(--gold);
+}
+
+html[lang="hi"] .hosts {
+    font-family: var(--f-deva);
+    letter-spacing: 0;
+}
+
+.request {
+    margin: 0 auto;
+    max-width: 380px;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--cream-dim);
+}
+
+html[lang="hi"] .request {
+    font-style: normal;
+}
+
+.arch {
+    margin: 28px auto 20px;
+    width: min(78%, 300px);
+    aspect-ratio: 3 / 4;
+    border-radius: 999px 999px 18px 18px;
+    padding: 6px;
+    background: linear-gradient(160deg, #ffe3a3, var(--gold-deep) 40%, #8a6a2c);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35), 0 0 40px rgba(255, 200, 120, 0.15);
+}
+
+.arch img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 999px 999px 13px 13px;
+}
+
+.couple {
+    margin: 0 0 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.couple-name {
+    font-size: clamp(30px, 8.6vw, 40px);
+    line-height: 1.2;
+}
+
+.couple-with {
+    font-style: italic;
+    color: var(--cream-dim);
+}
+
+.parents {
+    margin: 4px 0 0;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* ---------------- 3. The evening ---------------- */
+
+.evening-time {
+    text-align: center;
+    max-width: 520px;
+    width: 100%;
+}
+
+.clock {
+    width: min(58vw, 220px);
+    height: auto;
+    display: block;
+    margin: 8px auto 18px;
+    filter: drop-shadow(0 0 24px rgba(255, 200, 120, 0.25));
+}
+
+.clock-face {
+    fill: rgba(10, 14, 36, 0.4);
+    stroke: var(--gold);
+    stroke-width: 2;
+}
+
+.clock-ticks line {
+    stroke: var(--gold);
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+
+.hand {
+    stroke: #ffe3a3;
+    stroke-linecap: round;
+    transform-origin: 100px 100px;
+    transition: transform 2.4s var(--ease) 0.4s;
+}
+
+.hand-hour {
+    stroke-width: 6;
+    transform: rotate(0deg);
+}
+
+.hand-minute {
+    stroke-width: 3.5;
+    transform: rotate(0deg);
+}
+
+/* Hands sweep round to 6:00 when the clock comes into view */
+.evening-time.in .hand-hour {
+    transform: rotate(180deg);
+}
+
+.evening-time.in .hand-minute {
+    transform: rotate(720deg);
+}
+
+.clock-pin {
+    fill: var(--gold);
+}
+
+.time-big {
+    margin: 0;
+    font-family: var(--f-head);
+    font-weight: 600;
+    font-size: clamp(26px, 7.4vw, 38px);
+    letter-spacing: 0.04em;
+    color: #ffe3a3;
+}
+
+html[lang="hi"] .time-big {
+    font-family: var(--f-deva);
+}
+
+.time-what {
+    margin: 4px 0 34px;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--cream-dim);
+}
+
+.countdown-label {
+    margin: 0 0 12px;
+    font-family: var(--f-head);
+    font-size: 12px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+}
+
+html[lang="hi"] .countdown-label {
+    font-family: var(--f-deva);
+    letter-spacing: 0.04em;
+    font-size: 15px;
+}
+
+.countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.countdown-grid div {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 12px 4px 8px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.countdown-grid span {
+    display: block;
+    font-family: var(--f-head);
+    font-size: clamp(22px, 6.6vw, 30px);
+    font-weight: 600;
+    line-height: 1.1;
+    color: #ffe3a3;
+    font-variant-numeric: tabular-nums;
+}
+
+.countdown-grid small {
+    font-size: 13px;
+    color: var(--cream-dim);
+}
+
+.countdown-done {
+    margin: 0;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 26px;
+    color: #ffe3a3;
+}
+
+/* ---------------- 4. Venue ---------------- */
+
+.venue-name {
+    margin: 0 0 8px;
+    font-family: var(--f-head);
+    font-weight: 600;
+    font-size: clamp(21px, 5.8vw, 27px);
+    letter-spacing: 0.04em;
+    color: #ffe3a3;
+}
+
+html[lang="hi"] .venue-name {
+    font-family: var(--f-deva);
+}
+
+.venue-address {
+    margin: 0 0 26px;
+    font-size: 19px;
+    color: var(--cream-dim);
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--gold);
+    background: linear-gradient(135deg, #ffe3a3, var(--gold-deep));
+    color: var(--ink);
+    font-family: var(--f-head);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+html[lang="hi"] .btn {
+    font-family: var(--f-deva);
+    font-size: 15px;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(232, 196, 122, 0.3);
+}
+
+.btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+
+.btn svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--gold);
+}
+
+/* ---------------- 5. Families ---------------- */
+
+.families {
+    padding: 0;
+    text-align: left;
+}
+
+.families summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 24px;
+    cursor: pointer;
+    font-family: var(--f-head);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+html[lang="hi"] .families summary {
+    font-family: var(--f-deva);
+    letter-spacing: 0.04em;
+    font-size: 17px;
+}
+
+.families summary::-webkit-details-marker {
+    display: none;
+}
+
+.families .chev {
+    font-size: 22px;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+.families[open] .chev {
+    transform: rotate(180deg);
+}
+
+.family-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 22px;
+    padding: 4px 24px 28px;
+    border-top: 1px solid var(--card-border);
+    padding-top: 22px;
+}
+
+.family-grid h4 {
+    margin: 0 0 6px;
+    font-family: var(--f-head);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+html[lang="hi"] .family-grid h4 {
+    font-family: var(--f-deva);
+    letter-spacing: 0.04em;
+    font-size: 15px;
+}
+
+.family-grid p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--cream-dim);
+}
+
+/* ---------------- 6. Night ---------------- */
+
+.scene-night {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-bottom: 28vh;
+}
+
+.night {
+    text-align: center;
+    max-width: 620px;
+}
+
+.night-message {
+    margin: 0 auto 34px;
+    font-size: clamp(20px, 5.2vw, 26px);
+    line-height: 1.75;
+    font-style: italic;
+    color: var(--cream);
+}
+
+html[lang="hi"] .night-message {
+    font-style: normal;
+}
+
+.diya-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2px;
+    margin-bottom: 30px;
+}
+
+.diya-row svg {
+    width: min(62px, 15vw);
+    height: auto;
+    overflow: visible;
+}
+
+.diya-row svg:nth-child(2),
+.diya-row svg:nth-child(4) { width: min(72px, 17vw); }
+.diya-row svg:nth-child(3) { width: min(86px, 20vw); }
+
+/* Each diya flickers on its own rhythm, and they light one by one */
+.diya-row svg:nth-child(2) { --flicker: 1.3s; --flame-delay: 0.6s; }
+.diya-row svg:nth-child(3) { --flicker: 1.9s; --flame-delay: 0.9s; }
+.diya-row svg:nth-child(4) { --flicker: 1.45s; --flame-delay: 1.2s; }
+.diya-row svg:nth-child(5) { --flicker: 1.75s; --flame-delay: 1.5s; }
+.diya-row svg:nth-child(1) { --flame-delay: 0.3s; }
+
+.night {
+    --flame: 0;
+}
+
+.night.in {
+    --flame: 1;
+}
+
+.night-sign {
+    margin: 0;
+    font-family: var(--f-head);
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+}
+
+html[lang="hi"] .night-sign {
+    font-family: var(--f-deva);
+    letter-spacing: 0.04em;
+    font-size: 16px;
+}
+
+.night-names {
+    margin: 10px 0 6px;
+    font-size: clamp(30px, 8.6vw, 48px);
+    line-height: 1.2;
+    text-shadow: 0 0 30px rgba(255, 200, 120, 0.35);
+}
+
+.night-names .amp {
+    font-size: 0.75em;
+}
+
+.night-family {
+    margin: 0;
+    font-style: italic;
+    color: var(--cream-dim);
+}
+
+/* ---------------- Larger screens ---------------- */
+
+@media (min-width: 720px) {
+    .card {
+        padding: 48px 44px;
+    }
+
+    .families {
+        padding: 0;
+    }
+}
+
+/* ---------------- Reduced motion ---------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0s !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Devanagari has no true italic; keep Hindi text upright */
+html[lang="hi"] .hero-greeting,
+html[lang="hi"] .hero-eyebrow,
+html[lang="hi"] .couple-with,
+html[lang="hi"] .time-what,
+html[lang="hi"] .countdown-done,
+html[lang="hi"] .night-family,
+html[lang="hi"] .scroll-cue,
+html[lang="hi"] .gate-hint,
+html[lang="hi"] .gate-name {
+    font-style: normal;
+}

@@ -87,7 +87,7 @@ window.addEventListener("DOMContentLoaded", () => {
             "invite-blessings-label": "With the Blessings of",
             "invite-elders": "Late Gokulbai &amp;<br>Late Onkarlalji Laddha",
             "invite-hosts": "Surekha &amp; Sanjay Laddha",
-            "invite-request": "cordially request the honour of your presence at the wedding celebration of their son",
+            "invite-request": "cordially request the honour of your presence at the wedding reception of their son",
             "invite-daughter-label": "Daughter of",
             "invite-bride-parents": "Mrs. Rama &amp; Mr. Mukesh ji Somani",
 
@@ -96,8 +96,8 @@ window.addEventListener("DOMContentLoaded", () => {
             "venue-subtitle": "Where our celebrations come alive",
             "venue-name": "Shree Garden and Resorts",
             "venue-address": "Agra &ndash; Mumbai Road, near Gaushala,<br>Pipaldhar, Sendhwa,<br>Madhya Pradesh <span class=\"venue-pincode\">451666</span>",
-            "venue-dates": "24<sup>th</sup> January 2027",
-            "venue-note": "All ceremonies will be held at this venue",
+            "venue-dates": "24<sup>th</sup> January 2027 &middot; 6:00 PM onwards",
+            "venue-note": "The reception will be held at this venue",
             "venue-map-btn": "View on Google Maps",
 
             // Family & Well-wishers
@@ -113,7 +113,7 @@ window.addEventListener("DOMContentLoaded", () => {
             "family-regards-names": "Shivchandra Ji Laddha<br>Satyanarayan Ji Laddha<br>Damodar Ji Laddha<br>Gaurinandan Ji Laddha<br><span class=\"family-names-all\">and the entire Laddha family</span>",
 
             "rsvp-title": "Seek Blessings",
-            "rsvp-subtitle": "With immense joy and the blessings of Lord Shiva, together with our families, we invite you to celebrate the beginning of our forever."
+            "rsvp-subtitle": "With immense joy and the blessings of Lord Shiva, together with our families, we invite you to join us at our wedding reception and celebrate the beginning of our forever."
         },
         hi: {
             "document-title": "अटूट बंधन — आयुष और अदिति",
@@ -199,7 +199,7 @@ window.addEventListener("DOMContentLoaded", () => {
             "invite-blessings-label": "आशीर्वाद",
             "invite-elders": "स्व. गोकुलबाई एवं<br>स्व. ओंकारलालजी लड्ढा",
             "invite-hosts": "सुरेखा एवं संजय लड्ढा",
-            "invite-request": "अपने सुपुत्र के शुभ विवाह समारोह में आपकी गरिमामयी उपस्थिति हेतु सादर आमंत्रित करते हैं",
+            "invite-request": "अपने सुपुत्र के शुभ विवाह के उपलक्ष्य में आयोजित स्वागत समारोह (रिसेप्शन) में आपकी गरिमामयी उपस्थिति हेतु सादर आमंत्रित करते हैं",
             "invite-daughter-label": "सुपुत्री",
             "invite-bride-parents": "श्रीमती रमा एवं श्री मुकेश जी सोमानी",
 
@@ -208,8 +208,8 @@ window.addEventListener("DOMContentLoaded", () => {
             "venue-subtitle": "जहाँ हमारे उत्सव साकार होंगे",
             "venue-name": "श्री गार्डन एंड रिसोर्ट्स",
             "venue-address": "आगरा &ndash; मुंबई रोड, गौशाला के पास,<br>पिपलधार, सेंधवा,<br>मध्य प्रदेश <span class=\"venue-pincode\">451666</span>",
-            "venue-dates": "२४ जनवरी २०२७",
-            "venue-note": "सभी कार्यक्रम इसी स्थल पर आयोजित होंगे",
+            "venue-dates": "२४ जनवरी २०२७ &middot; शाम 6:00 बजे से",
+            "venue-note": "स्वागत समारोह इसी स्थल पर आयोजित होगा",
             "venue-map-btn": "गूगल मैप्स पर देखें",
 
             // Family & Well-wishers
@@ -225,7 +225,7 @@ window.addEventListener("DOMContentLoaded", () => {
             "family-regards-names": "शिवचंद्र जी लड्ढा<br>सत्यनारायण जी लड्ढा<br>दामोदर जी लड्ढा<br>गौरीनंदन जी लड्ढा<br><span class=\"family-names-all\">एवं समस्त लड्ढा परिवार</span>",
 
             "rsvp-title": "आशीर्वाद की कामना",
-            "rsvp-subtitle": "अत्यंत हर्ष और भगवान शिव के आशीर्वाद के साथ, हमारे परिवारों के साथ मिलकर, हम आपको हमारे जीवन के नए अध्याय की शुरुआत का उत्सव मनाने के लिए आमंत्रित करते हैं।"
+            "rsvp-subtitle": "अत्यंत हर्ष और भगवान शिव के आशीर्वाद के साथ, हमारे परिवारों के साथ मिलकर, हम आपको हमारे विवाह स्वागत समारोह में पधारकर हमारे जीवन के नए अध्याय की शुरुआत का उत्सव मनाने के लिए आमंत्रित करते हैं।"
         }
     };
 
